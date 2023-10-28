@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat App</title>
+  </head>
+  <body>
+    <h1> Telegram Messages </h1>
+    <ul id="messages"></ul>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+      const socket = io('');
+
+      socket.on('connect', () => {
+        socket.emit('getPreviousMessages')
+      })
+
+      const messagesList = document.getElementById("messages");
+
+      function addMessage(message) {
+        const listItem = document.createElement("li");
+        listItem.textContent = message.message;
+        messagesList.appendChild(listItem);
+      }
+
+      socket.on("previousMessages", (messages) => {
+        messages.forEach((message) => {
+          addMessage(message);
+        });
+      });
+
+      socket.on("message", (message) => {
+        addMessage(message);
+      });
+    </script>
+  </body>
+</html>
