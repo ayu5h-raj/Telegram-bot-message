@@ -3,8 +3,8 @@ const Message = require("./messages.model");
 
 function initializeSubscriber(io) {
   const subscriber = new Redis({
-    host: "localhost",
-    port: 6379,
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
   });
 
   subscriber.subscribe("notifications", (err, count) => {

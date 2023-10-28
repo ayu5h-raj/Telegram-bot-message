@@ -13,11 +13,11 @@ mongoose.connect(process.env.MONGO_SERVER, {
 }).then(() => {
   console.log('MongoDB connected');
 }).catch((err) => {
-
   console.log("Failed to connect to mongodb", err);
 })
 
 require('./src/telegram.bot');
+
 const io = require('./src/socket')(server);
 require('./src/subscriber')(io);
 
