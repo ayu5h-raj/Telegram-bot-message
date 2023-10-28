@@ -18,8 +18,8 @@ mongoose.connect(process.env.MONGO_SERVER, {
 })
 
 require('./src/telegram.bot');
-require('./src/socket')(server);
-require('./src/subscriber')(server);
+const io = require('./src/socket')(server);
+require('./src/subscriber')(io);
 
 app.get('/', (req, res) => {
   const path = __dirname + "/client/" + 'index.html';

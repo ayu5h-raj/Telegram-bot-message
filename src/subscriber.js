@@ -1,8 +1,7 @@
 const Redis = require("ioredis");
 const Message = require("./messages.model");
-const socketIO = require("socket.io");
 
-function initializeSubscriber(server) {
+function initializeSubscriber(io) {
   const subscriber = new Redis({
     host: "localhost",
     port: 6379,
@@ -14,8 +13,6 @@ function initializeSubscriber(server) {
     }
     console.log(`Subscribed to ${count} channel(s). Listening for updates...`);
   });
-
-  const io = socketIO(server);
 
   subscriber.on("connect", () => {
     console.log("Subscriber connected");
@@ -37,16 +34,6 @@ function initializeSubscriber(server) {
     } catch (err) {
       console.log(err);
     }
-  });
-
-  io.on("connection", (socket) => {
-    console.log("Client connected");
-
-    // Emit previous messages to the client
-    socket.on("getPreviousMessages", async () => {
-      const messages = await Message.find();
-      socket.emit("previousMessages", messages);
-    });
   });
 }
 

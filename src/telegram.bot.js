@@ -9,9 +9,6 @@ bot.onText(/.*/, async (msg) => {
     from: { id: chatId, username },
   } = msg;
   
-  bot.sendMessage(chatId, `Received your text: ${text}`);
-  console.log("Received your text: ", text);
-
   try{
     await publisher.publish('notifications', text);
   }
