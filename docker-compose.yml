@@ -11,6 +11,8 @@ services:
     container_name: mongodb
     ports:
       - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
   node:
     build:
       context: .
@@ -20,3 +22,6 @@ services:
     depends_on:
       - redis
       - mongodb
+      
+volumes:
+  mongodb_data:
